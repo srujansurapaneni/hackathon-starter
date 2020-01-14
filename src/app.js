@@ -1,7 +1,6 @@
 import React from "react";
 import "./css/assets.scss";
 import Input from "./input";
-import Options from "./options";
 
 export default class App extends React.Component {
   // your Javascript goes here
@@ -15,10 +14,6 @@ export default class App extends React.Component {
         <p></p>
         <div>
           <Input />
-          <p></p>
-          <br />
-          <br />
-          <Options />
           <br />
         </div>
       </div>

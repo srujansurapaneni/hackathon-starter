@@ -3,8 +3,6 @@ import "./css/assets.scss";
 import Output from "./output";
 import Options from "./options";
 
-export const outputValue = "";
-
 export default class Input extends React.Component {
   // your Javascript goes here
   constructor(props) {
@@ -35,30 +33,30 @@ export default class Input extends React.Component {
       });
 
     client
+      .algo("diego/WordFrequencyCounter/0.2.0?timeout=300")
+      .pipe(input)
+      .then(output => {
+        this.setState({ frequency: JSON.stringify(output.result, null, "\t") });
+      });
+
+    client
+      .algo("jhurliman/Text2Emoji/0.1.1?timeout=300")
+      .pipe({ text: input })
+      .then(output => {
+        this.setState({ emojis: output.result.text });
+      });
+
+    client
       .algo("mtman/SentimentAnalysis/0.1.1?timeout=300")
       .pipe(input)
       .then(output => {
         this.setState({ sentiment: output.result });
       });
-
-    client
-      .algo("jhurliman/Text2Emoji/0.1.1?timeout=300")
-      .pipe(input)
-      .then(output => {
-        this.setState({ emojis: output.result });
-      });
-
-    client
-      .algo("diego/WordFrequencyCounter/0.2.0?timeout=300")
-      .pipe(input)
-      .then(output => {
-        this.setState({ frequency: output.result });
-      });
   }
   render() {
     return (
       <div>
-        <Output outputValue={this.state.output} />
+        <Output value={this.state} />
         <div className="alert bg-transparent" role="alert">
           <label>Input text below...</label>
           <div className="input-group input-group-lg">
@@ -80,10 +78,10 @@ export default class Input extends React.Component {
               </button>
             </div>
           </div>
+          <p></p>
+          <br />
+          <Options value={this.state} />
         </div>
-        <p></p>
-        <br />
-        <Options />
       </div>
     );
   }
